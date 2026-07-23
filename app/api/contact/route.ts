@@ -22,7 +22,7 @@ export async function POST(req: NextRequest) {
         // Until you verify prabeshlamatamang.com.np, use Resend's shared
         // sandbox address below for testing.
         from: "Contact Form <onboarding@resend.dev>",
-        to: "info@prabeshlamatamang.com.np",
+        to: "prbs28@gmail.com",
         reply_to: email,
         subject: `New message from ${name}`,
         text: `From: ${name} (${email})\n\n${message}`,
