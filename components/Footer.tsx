@@ -1,6 +1,13 @@
 import Link from "next/link";
+import { getSiteNavigation } from "@/lib/sanity";
 
-export default function Footer() {
+export default async function Footer() {
+  const nav = await getSiteNavigation();
+  const columns =
+    nav?.footerColumns && nav.footerColumns.length > 0
+      ? nav.footerColumns
+      : DEFAULT_COLUMNS;
+
   return (
     <footer className="border-t border-line bg-ink text-paper">
       <div className="mx-auto grid max-w-wrap gap-10 px-6 py-14 md:grid-cols-[1.3fr_1fr_1fr_1.2fr]">
@@ -23,27 +30,27 @@ export default function Footer() {
           </div>
         </div>
 
-        <div>
-          <p className="font-display text-xs font-medium uppercase tracking-wide text-marigold">
-            Quick Links
-          </p>
-          <ul className="mt-4 flex flex-col gap-2 font-body text-sm text-paper/75">
-            <li><Link href="/category/blogs" className="focus-ring hover:text-paper">Blogs</Link></li>
-            <li><Link href="/category/guides" className="focus-ring hover:text-paper">Guides</Link></li>
-            <li><Link href="/contact" className="focus-ring hover:text-paper">Contact</Link></li>
-          </ul>
-        </div>
-
-        <div>
-          <p className="font-display text-xs font-medium uppercase tracking-wide text-marigold">
-            Tools
-          </p>
-          <ul className="mt-4 flex flex-col gap-2 font-body text-sm text-paper/75">
-            <li><Link href="/date-converter" className="focus-ring hover:text-paper">Date Converter</Link></li>
-            <li><Link href="/sip-calculator" className="focus-ring hover:text-paper">SIP Calculator</Link></li>
-            <li><Link href="/mileage-calculator" className="focus-ring hover:text-paper">Mileage Calculator</Link></li>
-          </ul>
-        </div>
+        {columns.map((col: any, i: number) => (
+          <div key={`${col.title}-${i}`}>
+            <p className="font-display text-xs font-medium uppercase tracking-wide text-marigold">
+              {col.title}
+            </p>
+            <ul className="mt-4 flex flex-col gap-2 font-body text-sm text-paper/75">
+              {col.links?.map((link: any) => (
+                <li key={link.url}>
+                  <Link
+                    href={link.url}
+                    target={link.openInNewTab ? "_blank" : undefined}
+                    rel={link.openInNewTab ? "noopener noreferrer" : undefined}
+                    className="focus-ring hover:text-paper"
+                  >
+                    {link.label}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
+        ))}
 
         <div>
           <p className="font-display text-xs font-medium uppercase tracking-wide text-marigold">
@@ -76,3 +83,24 @@ export default function Footer() {
     </footer>
   );
 }
+
+// Fallback used only if no siteNavigation document exists yet in Sanity,
+// so the footer never renders empty.
+const DEFAULT_COLUMNS = [
+  {
+    title: "Quick Links",
+    links: [
+      { label: "Blogs", url: "/category/blogs" },
+      { label: "Guides", url: "/category/guides" },
+      { label: "Contact", url: "/contact" },
+    ],
+  },
+  {
+    title: "Tools",
+    links: [
+      { label: "Date Converter", url: "/date-converter" },
+      { label: "SIP Calculator", url: "/sip-calculator" },
+      { label: "Mileage Calculator", url: "/mileage-calculator" },
+    ],
+  },
+];
