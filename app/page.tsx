@@ -77,19 +77,19 @@ export default async function HomePage() {
       </section>
 
       {/* Category strip */}
-      <section className="border-b border-line px-6 py-6">
-        <div className="mx-auto flex max-w-wrap flex-wrap gap-3">
-          {CATEGORIES.map((cat) => (
-            <Link
-              key={cat.href}
-              href={cat.href}
-              className="focus-ring border border-line px-4 py-1.5 font-mono text-xs text-ink/70 transition hover:border-vermilion hover:text-vermilion"
-            >
-              {cat.label}
-            </Link>
-          ))}
-        </div>
-      </section>
+<section className="border-b border-line px-6 py-6">
+  <div className="mx-auto grid max-w-wrap grid-cols-2 gap-3 sm:flex sm:flex-wrap sm:justify-center">
+    {CATEGORIES.map((cat) => (
+      <Link
+        key={cat.href}
+        href={cat.href}
+        className="focus-ring border border-line px-4 py-1.5 text-center font-mono text-xs text-ink/70 transition hover:border-vermilion hover:text-vermilion"
+      >
+        {cat.label}
+      </Link>
+    ))}
+  </div>
+</section>
 
       {/* Latest posts */}
       <section className="px-6 py-16">
