@@ -58,3 +58,14 @@ export async function getToolBySlug(slug: string) {
     { slug }
   );
 }
+
+export async function getFeaturedTools() {
+  return client.fetch(
+    `*[_type == "tool" && featuredOnHomepage == true] | order(order asc){
+      title,
+      description,
+      sampleOutput,
+      "slug": slug.current
+    }`
+  );
+}
