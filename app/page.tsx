@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { getFeaturedTools } from "@/lib/sanity";
+import { getFeaturedTools, getFeaturedPosts, getAllPosts } from "@/lib/sanity";
 
 const CATEGORIES = [
   { label: "Civic Guide", href: "/category/civic-guide" },
@@ -8,35 +8,14 @@ const CATEGORIES = [
   { label: "Travel", href: "/category/travel" },
 ];
 
-const POSTS = [
-  {
-    title: "eSewa vs Khalti: Which Digital Wallet is Better in Nepal?",
-    date: "June 25, 2026",
-    category: "Blogs",
-    excerpt:
-      "If you've ever needed to pay a bill, recharge your mobile, transfer money, or scan a QR code, chances are you've reached for one of these two wallets.",
-    href: "/esewa-vs-khalti",
-  },
-  {
-    title: "How to Download eNID (National ID) in Nepal: Complete Guide 2026",
-    date: "June 19, 2026",
-    category: "Civic Guide",
-    excerpt:
-      "The Government of Nepal has introduced the eNID download feature — here's the full step-by-step walkthrough.",
-    href: "/how-to-download-enid",
-  },
-  {
-    title: "Nepal EV Import Statistics (FY 2078/79–2082/83)",
-    date: "June 18, 2026",
-    category: "Blogs",
-    excerpt:
-      "Nepal imported 28,222 electric vehicles in the first 10 months of FY 2082/83 — a quick look at the numbers.",
-    href: "/nepal-ev-import",
-  },
-];
-
 export default async function HomePage() {
   const tools = await getFeaturedTools();
+
+  let posts = await getFeaturedPosts();
+  if (!posts || posts.length === 0) {
+    const allPosts = await getAllPosts();
+    posts = allPosts.slice(0, 3);
+  }
 
   return (
     <>
@@ -128,14 +107,19 @@ export default async function HomePage() {
           </div>
 
           <div className="mt-8 grid gap-8 md:grid-cols-3">
-            {POSTS.map((post) => (
+            {posts.map((post: any) => (
               <Link
-                key={post.href}
-                href={post.href}
+                key={post.slug}
+                href={`/${post.slug}`}
                 className="focus-ring group flex flex-col border border-line p-6 transition hover:border-ink"
               >
                 <span className="font-mono text-[11px] uppercase tracking-wide text-marigold">
-                  {post.category} · {post.date}
+                  {post.category} ·{" "}
+                  {new Date(post.publishedAt).toLocaleDateString("en-US", {
+                    year: "numeric",
+                    month: "long",
+                    day: "numeric",
+                  })}
                 </span>
                 <h3 className="mt-3 font-display text-lg font-semibold leading-snug text-ink group-hover:text-vermilion">
                   {post.title}
