@@ -114,7 +114,7 @@ export default async function HomePage() {
                 className="focus-ring group flex flex-col border border-line p-6 transition hover:border-ink"
               >
                 <span className="font-mono text-[11px] uppercase tracking-wide text-marigold">
-                  {post.category} ·{" "}
+                  {post.categories?.join(" / ")} ·{" "}
                   {new Date(post.publishedAt).toLocaleDateString("en-US", {
                     year: "numeric",
                     month: "long",
