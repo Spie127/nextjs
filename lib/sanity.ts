@@ -16,7 +16,14 @@ export async function getPostBySlug(slug: string) {
       publishedAt,
       seo,
       "categories": categories[]->title,
-      "mainImageUrl": mainImage.asset->url
+      "mainImageUrl": mainImage.asset->url,
+      "similarPosts": similarPosts[]->{
+        title,
+        excerpt,
+        publishedAt,
+        "slug": slug.current,
+        "categories": categories[]->title
+      }
     }`,
     { slug }
   );
@@ -65,9 +72,45 @@ export async function getToolBySlug(slug: string) {
       title,
       description,
       content,
+      seo,
+      "similarTools": similarTools[]->{
+        title,
+        description,
+        sampleOutput,
+        "slug": slug.current
+      }
+    }`,
+    { slug }
+  );
+}
+
+export async function getPageBySlug(slug: string) {
+  return client.fetch(
+    `*[_type == "page" && slug.current == $slug][0]{
+      title,
+      body,
       seo
     }`,
     { slug }
+  );
+}
+
+export async function getSiteNavigation() {
+  return client.fetch(
+    `*[_type == "siteNavigation"][0]{
+      headerLinks[]{
+        _type,
+        label,
+        url,
+        openInNewTab,
+        isButton,
+        links[]{ label, url, openInNewTab, isButton }
+      },
+      footerColumns[]{
+        title,
+        links[]{ label, url, openInNewTab }
+      }
+    }`
   );
 }
 
