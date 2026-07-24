@@ -5,9 +5,10 @@ import Image from "next/image";
 export default async function PostPage({
   params,
 }: {
-  params: { slug: string };
+  params: Promise<{ slug: string }>;
 }) {
-  const post = await getPostBySlug(params.slug);
+  const { slug } = await params;
+  const post = await getPostBySlug(slug);
 
   if (!post) return notFound();
 
@@ -37,8 +38,6 @@ export default async function PostPage({
         )}
 
         <div className="prose prose-neutral mt-8 max-w-none font-body text-ink/80">
-          {/* Body is Sanity's block content - render with a portable text
-              component once you're ready to style rich text properly */}
           {post.excerpt}
         </div>
       </div>
