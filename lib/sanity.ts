@@ -47,6 +47,18 @@ export async function getAllPosts() {
   );
 }
 
+export async function getFeaturedPosts() {
+  return client.fetch(
+    `*[_type == "post" && featuredOnHomepage == true] | order(publishedAt desc){
+      title,
+      excerpt,
+      publishedAt,
+      "slug": slug.current,
+      "category": category->title
+    }`
+  );
+}
+
 export async function getToolBySlug(slug: string) {
   return client.fetch(
     `*[_type == "tool" && slug.current == $slug][0]{
