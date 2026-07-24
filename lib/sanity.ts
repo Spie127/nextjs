@@ -46,3 +46,14 @@ export async function getAllPosts() {
     }`
   );
 }
+export async function getToolBySlug(slug: string) {
+  return client.fetch(
+    `*[_type == "tool" && slug.current == $slug][0]{
+      title,
+      description,
+      content,
+      seo
+    }`,
+    { slug }
+  );
+}
