@@ -1,6 +1,7 @@
 import { getToolBySlug } from "@/lib/sanity";
 import { PortableText } from "@portabletext/react";
 import MileageCalculator from "@/components/MileageCalculator";
+import SimilarTools from "@/components/SimilarTools";
 import type { Metadata } from "next";
 
 const SITE_URL =
@@ -59,6 +60,8 @@ export default async function MileageCalculatorPage() {
             <PortableText value={tool.content} />
           </div>
         )}
+
+        <SimilarTools tools={tool?.similarTools} />
       </div>
     </section>
   );
