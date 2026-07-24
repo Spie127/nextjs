@@ -15,7 +15,7 @@ export async function getPostBySlug(slug: string) {
       body,
       publishedAt,
       seo,
-      "category": category->title,
+      "categories": categories[]->title,
       "mainImageUrl": mainImage.asset->url
     }`,
     { slug }
@@ -24,12 +24,12 @@ export async function getPostBySlug(slug: string) {
 
 export async function getPostsByCategory(categorySlug: string) {
   return client.fetch(
-    `*[_type == "post" && category->slug.current == $categorySlug] | order(publishedAt desc){
+    `*[_type == "post" && $categorySlug in categories[]->slug.current] | order(publishedAt desc){
       title,
       excerpt,
       publishedAt,
       "slug": slug.current,
-      "category": category->title
+      "categories": categories[]->title
     }`,
     { categorySlug }
   );
@@ -42,19 +42,19 @@ export async function getAllPosts() {
       excerpt,
       publishedAt,
       "slug": slug.current,
-      "category": category->title
+      "categories": categories[]->title
     }`
   );
 }
 
 export async function getFeaturedPosts() {
   return client.fetch(
-    `*[_type == "post" && featuredOnHomepage == true] | order(publishedAt desc){
+    `*[_type == "post" && featuredOnHomepage == true] | order(publishedAt desc) [0...3]{
       title,
       excerpt,
       publishedAt,
       "slug": slug.current,
-      "category": category->title
+      "categories": categories[]->title
     }`
   );
 }
@@ -73,7 +73,7 @@ export async function getToolBySlug(slug: string) {
 
 export async function getFeaturedTools() {
   return client.fetch(
-    `*[_type == "tool" && featuredOnHomepage == true] | order(order asc){
+    `*[_type == "tool" && featuredOnHomepage == true] | order(order asc) [0...3]{
       title,
       description,
       sampleOutput,
