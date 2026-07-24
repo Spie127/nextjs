@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { getFeaturedTools } from "@/lib/sanity";
 
 const CATEGORIES = [
   { label: "Civic Guide", href: "/category/civic-guide" },
@@ -34,15 +35,9 @@ const POSTS = [
   },
 ];
 
-const TOOLS = [
-  { label: "Date Converter", sample: "2082.04.08 → 2026.07.23", href: "/date-converter" },
-  { label: "SIP Calculator", sample: "Rs 5,000/mo → Rs 10.3L", href: "/sip-calculator" },
-  { label: "Mileage Calculator", sample: "38.4 km/l", href: "/mileage-calculator" },
-  { label: "EMI Calculator", sample: "Rs 8,432 / month", href: "/emi-calculator" },
-  { label: "Grade Converter", sample: "3.6 GPA → 84%", href: "/grade-converter-gpa-percentage" },
-];
+export default async function HomePage() {
+  const tools = await getFeaturedTools();
 
-export default function HomePage() {
   return (
     <>
       {/* Hero */}
@@ -74,28 +69,32 @@ export default function HomePage() {
           </div>
         </div>
 
-        {/* Signature: ledger strip of live tool readouts */}
-        <div className="mx-auto mt-16 max-w-wrap overflow-x-auto">
-          <div className="flex min-w-max border border-line">
-            {TOOLS.map((tool, i) => (
-              <Link
-                key={tool.href}
-                href={tool.href}
-                className="focus-ring group flex w-44 shrink-0 flex-col justify-between border-r border-line px-4 py-4 last:border-r-0 hover:bg-marigold/10"
-              >
-                <span className="font-mono text-[11px] text-ink/40">
-                  {String(i + 1).padStart(2, "0")}
-                </span>
-                <span className="mt-3 font-display text-xs font-medium text-ink/80 group-hover:text-vermilion">
-                  {tool.label}
-                </span>
-                <span className="mt-2 font-mono text-sm text-indigo">
-                  {tool.sample}
-                </span>
-              </Link>
-            ))}
+        {/* Signature: ledger strip of live tool previews - curated in Sanity */}
+        {tools.length > 0 && (
+          <div className="mx-auto mt-16 max-w-wrap overflow-x-auto">
+            <div className="flex min-w-max border border-line">
+              {tools.map((tool: any, i: number) => (
+                <Link
+                  key={tool.slug}
+                  href={`/${tool.slug}`}
+                  className="focus-ring group flex w-44 shrink-0 flex-col justify-between border-r border-line px-4 py-4 last:border-r-0 hover:bg-marigold/10"
+                >
+                  <span className="font-mono text-[11px] text-ink/40">
+                    {String(i + 1).padStart(2, "0")}
+                  </span>
+                  <span className="mt-3 font-display text-xs font-medium text-ink/80 group-hover:text-vermilion">
+                    {tool.title}
+                  </span>
+                  {tool.sampleOutput && (
+                    <span className="mt-2 font-mono text-sm text-indigo">
+                      {tool.sampleOutput}
+                    </span>
+                  )}
+                </Link>
+              ))}
+            </div>
           </div>
-        </div>
+        )}
       </section>
 
       {/* Category strip */}
