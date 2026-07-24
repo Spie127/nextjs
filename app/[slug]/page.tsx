@@ -2,6 +2,39 @@ import { getPostBySlug } from "@/lib/sanity";
 import { notFound } from "next/navigation";
 import Image from "next/image";
 import { PortableText } from "@portabletext/react";
+import type { Metadata } from "next";
+
+const SITE_URL =
+  process.env.NEXT_PUBLIC_SITE_URL || "https://prabeshlamatamang.com.np";
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ slug: string }>;
+}): Promise<Metadata> {
+  const { slug } = await params;
+  const post = await getPostBySlug(slug);
+
+  if (!post) return {};
+
+  const title = post.seo?.metaTitle || post.title;
+  const description = post.seo?.metaDescription || post.excerpt;
+  const canonical = post.seo?.canonicalUrl || `${SITE_URL}/${slug}`;
+
+  return {
+    title,
+    description,
+    alternates: {
+      canonical,
+    },
+    openGraph: {
+      title,
+      description,
+      url: canonical,
+      images: post.mainImageUrl ? [post.mainImageUrl] : undefined,
+    },
+  };
+}
 
 export default async function PostPage({
   params,
@@ -15,6 +48,13 @@ export default async function PostPage({
 
   return (
     <article className="px-6 py-16">
+      {post.seo?.customSchema && (
+        <script
+          type="application/ld+json"
+          // eslint-disable-next-line react/no-danger
+          dangerouslySetInnerHTML={{ __html: post.seo.customSchema }}
+        />
+      )}
       <div className="mx-auto max-w-2xl">
         <p className="font-mono text-xs uppercase tracking-wide text-marigold">
           {post.category} ·{" "}
