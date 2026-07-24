@@ -29,7 +29,7 @@ export default async function CategoryPage({
                 className="focus-ring group flex flex-col border border-line p-6 transition hover:border-ink"
               >
                 <span className="font-mono text-[11px] uppercase tracking-wide text-marigold">
-                  {post.category} ·{" "}
+                  {post.categories?.join(" / ")} ·{" "}
                   {new Date(post.publishedAt).toLocaleDateString()}
                 </span>
                 <h3 className="mt-3 font-display text-lg font-semibold leading-snug text-ink group-hover:text-vermilion">
