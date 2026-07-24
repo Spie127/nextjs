@@ -57,7 +57,7 @@ export default async function PostPage({
       )}
       <div className="mx-auto max-w-2xl">
         <p className="font-mono text-xs uppercase tracking-wide text-marigold">
-          {post.category} ·{" "}
+          {post.categories?.join(" / ")} ·{" "}
           {new Date(post.publishedAt).toLocaleDateString("en-US", {
             year: "numeric",
             month: "long",
