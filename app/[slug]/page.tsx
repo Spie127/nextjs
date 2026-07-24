@@ -1,6 +1,7 @@
 import { getPostBySlug } from "@/lib/sanity";
 import { notFound } from "next/navigation";
 import Image from "next/image";
+import { PortableText } from "@portabletext/react";
 
 export default async function PostPage({
   params,
@@ -38,7 +39,11 @@ export default async function PostPage({
         )}
 
         <div className="prose prose-neutral mt-8 max-w-none font-body text-ink/80">
-          {post.excerpt}
+          {post.body ? (
+            <PortableText value={post.body} />
+          ) : (
+            <p>{post.excerpt}</p>
+          )}
         </div>
       </div>
     </article>
