@@ -12,6 +12,7 @@ const config: Config = {
         ink: "#2B2B2B",
         indigo: "#2B3A55",
         marigold: "#FFD22E",
+        honey: "#8A6E00", 
         vermilion: "#D92525",
         line: "#E4DFD3",
       },
