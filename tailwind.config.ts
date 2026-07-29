@@ -9,10 +9,10 @@ const config: Config = {
     extend: {
       colors: {
         paper: "#FAF7F1",
-        ink: "#1C1B19",
+        ink: "#2B2B2B",
         indigo: "#2B3A55",
-        marigold: "#E8A33D",
-        vermilion: "#A13D2C",
+        marigold: "#FFD22E",
+        vermilion: "#D92525",
         line: "#E4DFD3",
       },
       fontFamily: {
