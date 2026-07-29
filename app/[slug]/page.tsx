@@ -67,14 +67,6 @@ function PostView({ post }: { post: any }) {
         />
       )}
       <div className="mx-auto max-w-2xl">
-        <p className="font-mono text-xs uppercase tracking-wide text-marigold">
-          {post.categories?.join(" / ")} ·{" "}
-          {new Date(post.publishedAt).toLocaleDateString("en-US", {
-            year: "numeric",
-            month: "long",
-            day: "numeric",
-          })}
-        </p>
         <h1 className="mt-4 font-display text-3xl font-semibold leading-tight text-ink md:text-4xl">
           {post.title}
         </h1>
