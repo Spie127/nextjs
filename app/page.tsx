@@ -113,14 +113,6 @@ export default async function HomePage() {
                 href={`/${post.slug}`}
                 className="focus-ring group flex flex-col border border-line p-6 transition hover:border-ink"
               >
-                <span className="font-mono text-[11px] uppercase tracking-wide text-marigold">
-                  {post.categories?.join(" / ")} ·{" "}
-                  {new Date(post.publishedAt).toLocaleDateString("en-US", {
-                    year: "numeric",
-                    month: "long",
-                    day: "numeric",
-                  })}
-                </span>
                 <h3 className="mt-3 font-display text-lg font-semibold leading-snug text-ink group-hover:text-vermilion">
                   {post.title}
                 </h3>
