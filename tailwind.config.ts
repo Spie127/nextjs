@@ -11,7 +11,7 @@ const config: Config = {
         paper: "#FAF7F1",
         ink: "#2B2B2B",
         indigo: "#2B3A55",
-        marigold: "#8A6E00",
+        marigold: "#FFD22E",
         vermilion: "#D92525",
         line: "#E4DFD3",
       },
